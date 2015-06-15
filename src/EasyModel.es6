@@ -1,9 +1,9 @@
-var BaseRelation = require("./EasyRelation.es6");
-var BaseRecord = require("./EasyRecord.es6");
+var EasyRelation = require("./EasyRelation.es6");
+var EasyRecord = require("./EasyRecord.es6");
 
-class BaseModel {
+class EasyModel {
   constructor() {
-    this.ds = new BaseRelation();
+    this.ds = new EasyRelation();
   }
 
   get all() {
@@ -42,7 +42,7 @@ class BaseModel {
     var index = this.ds.exist(attrs.id);
     var self = this;
     if (index === false) {
-      this.ds._models.push(new BaseRecord({
+      this.ds._models.push(new EasyRecord({
         attrs: {
           id: attrs.id,
           name: attrs.name
@@ -88,4 +88,4 @@ class BaseModel {
 
 }
 
-module.exports = BaseModel;
+module.exports = EasyModel;

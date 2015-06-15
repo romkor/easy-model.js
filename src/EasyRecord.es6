@@ -1,4 +1,4 @@
-class BaseRecord {
+class EasyRecord {
 
   constructor({attrs, model}) {
     this.attrs = attrs;
@@ -24,4 +24,4 @@ class BaseRecord {
   }
 }
 
-module.exports = BaseRecord;
+module.exports = EasyRecord;

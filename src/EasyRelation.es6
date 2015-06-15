@@ -1,4 +1,4 @@
-class BaseRelation {
+class EasyRelation {
 
   constructor(models) {
     this._models = models || [];
@@ -35,4 +35,4 @@ class BaseRelation {
 
 }
 
-module.exports = BaseRelation;
+module.exports = EasyRelation;
