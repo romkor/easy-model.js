@@ -1,10 +1,10 @@
-var EasyRelation = require("./EasyRelation.es6");
-var EasyRecord = require("./EasyRecord.es6");
+var Relation = require("./relation.es6");
+var Record = require("./record.es6");
 
-class EasyModel {
+class Model {
 
   constructor() {
-    this.ds = new EasyRelation();
+    this.ds = new Relation();
   }
 
   get all() {
@@ -42,7 +42,7 @@ class EasyModel {
   create(attrs) {
     var index = this.ds.exist(attrs.id);
     if (index === false) {
-      this.ds._models.push(new EasyRecord({
+      this.ds._models.push(new Record({
         attrs: {
           id: attrs.id,
           name: attrs.name
@@ -87,4 +87,4 @@ class EasyModel {
 
 }
 
-module.exports = EasyModel;
+module.exports = Model;

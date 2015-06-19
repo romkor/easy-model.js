@@ -1,7 +1,7 @@
-class EasyRecord {
+class Record {
 
   constructor({attrs, model}) {
-    this.attrs = attrs;
+    this.attrs = attrs || {};
     this.model = model;
   }
 
@@ -24,4 +24,4 @@ class EasyRecord {
   }
 }
 
-module.exports = EasyRecord;
+module.exports = Record;
