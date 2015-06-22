@@ -1,14 +1,16 @@
+const _models = Symbol('_models');
+
 class Relation {
 
   constructor(models) {
-    this._models = models || [];
-    this._models.index = this._models.map((attrs)=> {
+    this[_models] = models || [];
+    this[_models].index = this[_models].map((attrs)=> {
       return attrs.id;
     });
   }
 
   get all() {
-    return this._models;
+    return this[_models];
   }
 
   get size() {
@@ -24,7 +26,7 @@ class Relation {
   }
 
   exist(id) {
-    var index = this._models.index.indexOf(id);
+    var index = this.all.index.indexOf(id);
     return index != -1 ? index : false;
   }
 

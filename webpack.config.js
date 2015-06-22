@@ -12,7 +12,10 @@ module.exports = {
   //libraryTarget: 'commonjs2',
   module: {
     loaders: [
-      { test: /\.es6?$/, exclude: /(node_modules|bower_components)/, loader: 'babel' }
+      { test: /\.es6?$/, exclude: /(node_modules|bower_components)/, loader: 'babel',
+        query: {
+          optional: ['runtime']
+        }}
     ]
   }
 };

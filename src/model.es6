@@ -1,69 +1,72 @@
+var EventEmitter = require('events').EventEmitter;
 var Relation = require("./relation.es6");
 var Record = require("./record.es6");
 
-class Model {
+const ds = Symbol('ds');
+
+class Model extends EventEmitter {
 
   constructor() {
-    this.ds = new Relation();
+    super();
+    this[ds] = new Model.DefaultRelation();
+    this.primaryKey = 'id';
   }
 
   get all() {
-    return this.ds.all;
+    return this[ds].all;
   }
 
   get any() {
-    return this.ds.any;
+    return this[ds].any;
   }
 
   get(index) {
-    return this.ds.get(index);
+    return this[ds].get(index);
   }
 
   get first() {
-    return this.ds.first;
+    return this[ds].first;
   }
 
   get last() {
-    return this.ds.last;
+    return this[ds].last;
   }
 
   get size() {
-    return this.ds.size;
+    return this[ds].size;
   }
 
   exist(id) {
-    return this.ds.exist(id);
+    return this[ds].exist(id);
   }
 
   find(id) {
-    return this.ds.find(id);
+    return this[ds].find(id);
   }
 
   create(attrs) {
-    var index = this.ds.exist(attrs.id);
+    var key = this.primaryKey;
+    var index = this[ds].exist(attrs[key]);
     if (index === false) {
-      this.ds._models.push(new Record({
-        attrs: {
-          id: attrs.id,
-          name: attrs.name
-        },
+      this[ds]._models.push(new Record({
+        attrs,
         model: this
       }));
-      this.ds._models.index.push(attrs.id);
+      this[ds]._models.index.push(attrs[key]);
       return attrs;
     }
   }
 
   update({id, attrs}) {
-    var index = this.ds.exist(id);
+    var index = this[ds].exist(id);
     if (index !== false) {
-      angular.extend(this.ds.get(index).attrs, attrs);
+      Object.assign(this[ds].get(index).fields, attrs);
     }
   }
 
   createOrUpdate(model) {
-    var attrs = this.ds.find(model.id),
-      id = model.id;
+    var id = model[this.primaryKey],
+    attrs = this[ds].find(id);
 
     if (!attrs) {
       return this.create(model);
@@ -73,18 +76,17 @@ class Model {
   }
 
   destroy(id) {
-    return new Promise((resolve, reject) => {
-      var index = this.ds.exist(id);
-      if (index !== false) {
-        resolve(angular.copy(this.ds.get(index)));
-        this.ds._models.splice(index, 1);
-        this.ds._models.index.splice(index, 1);
-      } else {
-        reject();
-      }
-    });
+    var index = this[ds].exist(id);
+    if (index !== false) {
+      this[ds]._models.splice(index, 1);
+      this[ds]._models.index.splice(index, 1);
+    } else {
+      return false;
+    }
   }
 
 }
+
+Model.DefaultRelation = Relation;
 
 module.exports = Model;

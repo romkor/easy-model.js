@@ -1,27 +1,26 @@
+const fields = Symbol(fields);
+
 class Record {
 
   constructor({attrs, model}) {
-    this.attrs = attrs || {};
+    this[fields] = attrs || {};
     this.model = model;
   }
 
-  update({id, attrs}) {
-    return this.model.update({id, attrs});
-  }
-
-  destroy() {
-    return this.model.destroy(this.attrs.id);
-  }
-
   get fields() {
-    return this.attrs;
+    return this[fields];
   }
 
   set fields(attrs) {
-    var _attrs = angular.copy(attrs);
-    delete _attrs.id;
-    angular.extend(this.attrs, _attrs);
+    var _attrs = Object.assign({}, attrs);
+    delete _attrs[this.model.primaryKey];
+    Object.assign(this[fields], _attrs);
   }
+
+  destroy() {
+    return this.model.destroy(this.fields[this.model.primaryKey]);
+  }
+
 }
 
 module.exports = Record;
