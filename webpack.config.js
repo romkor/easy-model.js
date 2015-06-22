@@ -8,14 +8,13 @@ module.exports = {
     filename: 'easy.js'
   },
   target: "node",
-  //library: 'EasyModel',
-  //libraryTarget: 'commonjs2',
   module: {
     loaders: [
       { test: /\.es6?$/, exclude: /(node_modules|bower_components)/, loader: 'babel',
         query: {
           optional: ['runtime']
-        }}
+        }
+      }
     ]
   }
 };
