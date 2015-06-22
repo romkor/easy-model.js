@@ -6,7 +6,7 @@
     "type": "git",
     "url": "https://github.com/romkor/easy-model.js.git"
   },
-  "main": "easy-model.js",
+  "main": "easy.js",
   "scripts": {
     "start": "webpack-dev-server",
     "watch": "webpack --watch",
