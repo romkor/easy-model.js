@@ -25,4 +25,16 @@ describe('EasyRecord', function() {
     });
   });
 
+  describe('#destroy()', function() {
+    it('should remove record from collection', function(){
+      var model = new Easy.Model();
+      model.create({id:1, title: 'Title'});
+      model.create({id:2, title: 'Title 2'});
+      expect(model.find(1).destroy()).to.be.ok();
+      expect(model.exist(1)).to.not.be.ok();
+      expect(model.size).to.be(1);
+    });
+
+  });
+
 });
