@@ -46,27 +46,27 @@ class Model extends EventEmitter {
 
   create(attrs) {
     var key = this.primaryKey;
-    var index = this[ds].exist(attrs[key]);
+    var index = this.exist(attrs[key]);
     if (index === false) {
-      this[ds]._models.push(new Record({
+      this.all.push(new Record({
         attrs,
         model: this
       }));
-      this[ds]._models.index.push(attrs[key]);
+      this.all.index.push(attrs[key]);
       return attrs;
     }
   }
 
   update({id, attrs}) {
-    var index = this[ds].exist(id);
+    var index = this.exist(id);
     if (index !== false) {
-      Object.assign(this[ds].get(index).fields, attrs);
+      Object.assign(this.get(index).fields, attrs);
     }
   }
 
   createOrUpdate(model) {
     var id = model[this.primaryKey],
-    attrs = this[ds].find(id);
+    attrs = this.find(id);
 
     if (!attrs) {
       return this.create(model);
@@ -76,10 +76,13 @@ class Model extends EventEmitter {
   }
 
   destroy(id) {
-    var index = this[ds].exist(id);
+    var index = this.exist(id),
+    record = Object.assign({}, this.find(index));
+
     if (index !== false) {
-      this[ds]._models.splice(index, 1);
-      this[ds]._models.index.splice(index, 1);
+      this.all.splice(index, 1);
+      this.all.index.splice(index, 1);
+      return record;
     } else {
       return false;
     }
