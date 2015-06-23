@@ -2,10 +2,10 @@ const _models = Symbol('_models');
 
 class Relation {
 
-  constructor(models) {
-    this[_models] = models || [];
+  constructor(options = {}) {
+    this[_models] = options.records || [];
     this[_models].index = this[_models].map((attrs)=> {
-      return attrs.id;
+      return attrs[options.model.primaryKey];
     });
   }
 

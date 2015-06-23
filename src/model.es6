@@ -8,8 +8,10 @@ class Model extends EventEmitter {
 
   constructor() {
     super();
-    this[ds] = new Model.DefaultRelation();
     this.primaryKey = 'id';
+    this[ds] = new Model.DefaultRelation({
+      model: this
+    });
   }
 
   get all() {
