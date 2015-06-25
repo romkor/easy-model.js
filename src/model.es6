@@ -1,6 +1,5 @@
 var EventEmitter = require('events').EventEmitter;
 var Relation = require("./relation.es6");
-var Record = require("./record.es6");
 
 const ds = Symbol('ds');
 
@@ -47,16 +46,7 @@ class Model extends EventEmitter {
   }
 
   create(attrs) {
-    var key = this.primaryKey;
-    var index = this.exist(attrs[key]);
-    if (index === false) {
-      this.all.push(new Record({
-        attrs,
-        model: this
-      }));
-      this.all.index.push(attrs[key]);
-      return attrs;
-    }
+    return this[ds].create(attrs);
   }
 
   update({id, attrs}) {
@@ -78,16 +68,7 @@ class Model extends EventEmitter {
   }
 
   destroy(id) {
-    var index = this.exist(id),
-    record = Object.assign({}, this.find(index));
-
-    if (index !== false) {
-      this.all.splice(index, 1);
-      this.all.index.splice(index, 1);
-      return record;
-    } else {
-      return false;
-    }
+    return this[ds].destroy(id);
   }
 
 }
