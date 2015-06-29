@@ -35,7 +35,7 @@ describe('EasyRelation', function() {
         model: new Easy.Model,
         records: records
       });
-      expect(relation.all).to.eql(records);
+      expect(relation.all.length).to.be(records.length);
     });
   });
 
@@ -72,7 +72,7 @@ describe('EasyRelation', function() {
         model: new Easy.Model,
         records: records
       });
-      expect(relation.get(1)).to.eql(records[1]);
+      expect(relation.get(1).fields).to.eql(records[1]);
     });
     it('should throw error if there are no records', function() {
       var relation = new Easy.Relation({

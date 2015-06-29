@@ -1,20 +1,28 @@
 const Record = require("./record.es6");
 
-const _models = Symbol('_models');
+const _records = Symbol('_records');
 const _index = Symbol('_index');
 
 class Relation {
 
   constructor(options = {}) {
+    options.records = options.records || [];
     this.model = options.model;
-    this[_models] = options.records || [];
-    this[_index] = this[_models].map((attrs)=> {
-      return attrs[options.model.primaryKey];
+    this[_records] = [];
+    this[_index] = [];
+    options.records.forEach((attrs)=> {
+      this.create(attrs);
+      this[_index].push(attrs[this.model.primaryKey]);
     });
+    console.log('this[_records].map(record => record.fields)', this[_records].map(record => record.fields));
   }
 
   get all() {
-    return this[_models];
+    return this[_records];
+  }
+
+  toJSON() {
+    return this.all.map(record => Object.assign(record, record.fields))
   }
 
   get size() {
@@ -43,16 +51,21 @@ class Relation {
     return index !== false ? this.get(index) : false
   }
 
-  create(attrs) {
-    var key = this.model.primaryKey;
-    var index = this.exist(attrs[key]);
+  create(fields) {
+    const key = this.model.primaryKey;
+    const fieldId = fields[key];
+    const index = this.exist(fieldId);
     if (index === false) {
-      this.all.push(new Record({
-        attrs,
-        model: this.model
+      console.log('new record',new Record({
+        fields,
+        relation: this
       }));
-      this[_index].push(attrs[key]);
-      return attrs;
+      this[_records].push(new Record({
+        fields,
+        relation: this
+      }));
+      this[_index].push(fieldId);
+      return fields;
     }
   }
 
