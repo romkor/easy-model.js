@@ -1,24 +1,26 @@
-const fields = Symbol(fields);
+const fieldsKey = Symbol('fields');
+const relationKey = Symbol('relation');
+const modelKey = Symbol('relation');
 
 class Record {
 
-  constructor({attrs, model}) {
-    this[fields] = attrs || {};
-    this.model = model;
+  constructor(options = {}) {
+    this[fieldsKey] = options.fields || {};
+    this[relationKey] = options.relation;
+    this[modelKey] = options.relation.model;
   }
 
   get fields() {
-    return this[fields];
+    return this[fieldsKey];
   }
 
   set fields(attrs) {
-    var _attrs = Object.assign({}, attrs);
-    delete _attrs[this.model.primaryKey];
-    Object.assign(this[fields], _attrs);
+    Object.assign(this[fieldsKey], attrs);
+    return this[fieldsKey];
   }
 
   destroy() {
-    return this.model.destroy(this.fields[this.model.primaryKey]);
+    return this[modelKey].destroy(this.fields[this[modelKey].primaryKey]);
   }
 
 }

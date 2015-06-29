@@ -1,23 +1,41 @@
-var assert = require("assert");
-var expect = require('expect.js');
-var Easy = require("../easy.js");
+const expect = require('expect.js');
+const Easy = require("../easy.js");
+const Record = Easy.Record;
+const Relation = Easy.Relation;
+const Model = Easy.Model;
+
+var record;
 
 describe('EasyRecord', function() {
+  beforeEach(function() {
+    record = new Record({
+      relation: new Relation({
+        model: new Model
+      })
+    });
+  });
+
   describe('#constructor()', function() {
     it('should save empty hash when attrs is empty', function(){
-      var record = new Easy.Record({});
       expect(record.fields).to.eql({});
+    });
+    it('should save fields', function(){
+      record = new Record({
+        fields: {title: 'Title'},
+        relation: new Relation({
+          model: new Model
+        })
+      });
+      expect(record.fields).to.eql({title: 'Title'});
     });
   });
 
   describe('#set fields(attrs)', function() {
     it('should save attrs', function() {
-      var record = new Easy.Record({model: new Easy.Model});
       record.fields = {title: 'Title'};
       expect(record.fields).to.eql({title: 'Title'});
     });
     it('should update attrs', function() {
-      var record = new Easy.Record({model: new Easy.Model});
       record.fields = {title: 'Title'};
       expect(record.fields).to.eql({title: 'Title'});
       record.fields.title = 'New Title';
@@ -27,12 +45,10 @@ describe('EasyRecord', function() {
 
   describe('#destroy()', function() {
     it('should remove record from collection', function(){
-      var model = new Easy.Model();
+      var model = new Model();
       model.create({id:1, title: 'Title'});
       model.create({id:2, title: 'Title 2'});
       expect(model.find(1).destroy()).to.be.ok();
-      expect(model.exist(1)).to.not.be.ok();
-      expect(model.size).to.be(1);
     });
 
   });
