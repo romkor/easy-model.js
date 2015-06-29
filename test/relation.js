@@ -112,4 +112,21 @@ describe('EasyRelation', function() {
     });
   });
 
+  describe('#exist(id)', function() {
+    it('should return index if record with given id exist in relation', function() {
+      var relation = new Easy.Relation({
+        model: new Easy.Model,
+        records: records
+      });
+      expect(relation.exist(2)).to.eql(1);
+    });
+    it('should return false if record with given id didn\'t exist in relation', function() {
+      var relation = new Easy.Relation({
+        model: new Easy.Model,
+        records: records
+      });
+      expect(relation.exist(10)).to.be(false);
+    });
+  });
+
 });

@@ -12,9 +12,7 @@ class Relation {
     this[_index] = [];
     options.records.forEach((attrs)=> {
       this.create(attrs);
-      this[_index].push(attrs[this.model.primaryKey]);
     });
-    console.log('this[_records].map(record => record.fields)', this[_records].map(record => record.fields));
   }
 
   get all() {
@@ -48,7 +46,7 @@ class Relation {
 
   find(id) {
     var index = this.exist(id);
-    return index !== false ? this.get(index) : false
+    return index !== false ? this.get(index) : false;
   }
 
   create(fields) {
@@ -56,10 +54,6 @@ class Relation {
     const fieldId = fields[key];
     const index = this.exist(fieldId);
     if (index === false) {
-      console.log('new record',new Record({
-        fields,
-        relation: this
-      }));
       this[_records].push(new Record({
         fields,
         relation: this

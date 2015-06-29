@@ -48,7 +48,7 @@ describe('EasyRecord', function() {
       var model = new Model();
       model.create({id:1, title: 'Title'});
       model.create({id:2, title: 'Title 2'});
-      expect(model.find(1).destroy()).to.be.ok();
+      expect(model.find(2).destroy()).to.be.ok();
     });
 
   });

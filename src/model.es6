@@ -13,6 +13,10 @@ class Model extends EventEmitter {
     });
   }
 
+  toJSON() {
+    return this[ds].toJSON()
+  }
+
   get all() {
     return this[ds].all;
   }
