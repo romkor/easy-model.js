@@ -1,20 +1,20 @@
-var EventEmitter = require('events').EventEmitter;
-var Relation = require("./relation.es6");
+import {EventEmitter} from "events";
+import Relation from "./relation.es6";
 
-const ds = Symbol('ds');
+const ds = Symbol("ds");
 
-class Model extends EventEmitter {
+export default class Model extends EventEmitter{
 
   constructor() {
     super();
-    this.primaryKey = 'id';
+    this.primaryKey = "id";
     this[ds] = new Model.DefaultRelation({
       model: this
     });
   }
 
   toJSON() {
-    return this[ds].toJSON()
+    return this[ds].toJSON();
   }
 
   get all() {
@@ -78,5 +78,3 @@ class Model extends EventEmitter {
 }
 
 Model.DefaultRelation = Relation;
-
-module.exports = Model;

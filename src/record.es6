@@ -1,8 +1,8 @@
-const fieldsKey = Symbol('fields');
-const relationKey = Symbol('relation');
-const modelKey = Symbol('relation');
+const fieldsKey = Symbol("fields");
+const relationKey = Symbol("relation");
+const modelKey = Symbol("relation");
 
-class Record {
+export default class Record {
 
   constructor(options = {}) {
     this[fieldsKey] = options.fields || {};
@@ -20,9 +20,8 @@ class Record {
   }
 
   destroy() {
-    return this[modelKey].destroy(this.fields[this[modelKey].primaryKey]);
+    const model = this[modelKey];
+    return model.destroy(this.fields[model.primaryKey]);
   }
 
 }
-
-module.exports = Record;

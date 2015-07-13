@@ -1,26 +1,26 @@
-const Record = require("./record.es6");
+import Record from "./record.es6";
 
-const _records = Symbol('_records');
-const _index = Symbol('_index');
+const recordsKey = Symbol("recordsKey");
+const indexKey = Symbol("indexKey");
 
-class Relation {
+export default class Relation {
 
   constructor(options = {}) {
     options.records = options.records || [];
     this.model = options.model;
-    this[_records] = [];
-    this[_index] = [];
+    this[recordsKey] = [];
+    this[indexKey] = [];
     options.records.forEach((attrs)=> {
       this.create(attrs);
     });
   }
 
   get all() {
-    return this[_records];
+    return this[recordsKey];
   }
 
   toJSON() {
-    return this.all.map(record => Object.assign(record, record.fields))
+    return this.all.map(record => Object.assign(record, record.fields));
   }
 
   get size() {
@@ -40,8 +40,8 @@ class Relation {
   }
 
   exist(id) {
-    var index = this[_index].indexOf(id);
-    return index != -1 ? index : false;
+    var index = this[indexKey].indexOf(id);
+    return index !== -1 ? index : false;
   }
 
   find(id) {
@@ -54,11 +54,11 @@ class Relation {
     const fieldId = fields[key];
     const index = this.exist(fieldId);
     if (index === false) {
-      this[_records].push(new Record({
+      this[recordsKey].push(new Record({
         fields,
         relation: this
       }));
-      this[_index].push(fieldId);
+      this[indexKey].push(fieldId);
       return fields;
     }
   }
@@ -69,7 +69,7 @@ class Relation {
 
     if (index !== false) {
       this.all.splice(index, 1);
-      this[_index].splice(index, 1);
+      this[indexKey].splice(index, 1);
       return record;
     } else {
       return false;
@@ -77,5 +77,3 @@ class Relation {
   }
 
 }
-
-module.exports = Relation;
