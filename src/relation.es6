@@ -20,7 +20,7 @@ export default class Relation {
   }
 
   toJSON() {
-    return this.all.map(record => Object.assign(record, record.fields));
+    return this.all.map(record => record.toJSON());
   }
 
   get size() {
@@ -49,17 +49,20 @@ export default class Relation {
     return index !== false ? this.get(index) : false;
   }
 
-  create(fields) {
+  create(fields = {}) {
     const key = this.model.primaryKey;
     const fieldId = fields[key];
     const index = this.exist(fieldId);
     if (index === false) {
-      this[recordsKey].push(new Record({
+      let record = new Record({
         fields,
         relation: this
-      }));
+      });
+      this[recordsKey].push(record);
       this[indexKey].push(fieldId);
-      return fields;
+      return record;
+    } else {
+      throw `Record with given ${key}: ${fieldId} already exist.`
     }
   }
 

@@ -5,9 +5,10 @@ const ds = Symbol("ds");
 
 export default class Model extends EventEmitter{
 
-  constructor() {
+  constructor(options = {}) {
     super();
     this.primaryKey = "id";
+    this.schema = options.schema || [];
     this[ds] = new Model.DefaultRelation({
       model: this
     });
@@ -54,21 +55,7 @@ export default class Model extends EventEmitter{
   }
 
   update({id, attrs}) {
-    var index = this.exist(id);
-    if (index !== false) {
-      Object.assign(this.get(index).fields, attrs);
-    }
-  }
-
-  createOrUpdate(model) {
-    var id = model[this.primaryKey],
-    attrs = this.find(id);
-
-    if (!attrs) {
-      return this.create(model);
-    } else {
-      return this.update({id, attrs});
-    }
+    return this[ds].update({id, attrs});
   }
 
   destroy(id) {
