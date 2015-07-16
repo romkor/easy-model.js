@@ -3,7 +3,7 @@ import Record from "./record.es6";
 const recordsKey = Symbol("recordsKey");
 const indexKey = Symbol("indexKey");
 
-export default class Relation {
+export default class Collection {
 
   constructor(options = {}) {
     options.records = options.records || [];
@@ -32,10 +32,10 @@ export default class Relation {
   }
 
   get(index) {
-    if (!this.any) throw Error("Can't return record from empty relation");
-    if (index == undefined) throw Error("index can't be blank");
-    if (!Number.isInteger(index)) throw Error("index should be integer");
-    if (index >= this.size) throw Error('index is out of records bounds');
+    if (!this.any) throw "Can't find record in empty collection";
+    if (index == undefined) throw "Attribute index can't be blank";
+    if (!Number.isInteger(index)) throw `Attribute index: ${index} should be integer`;
+    if (index >= this.size) throw `Attribute index: ${index} is out of records bounds`;
     return this.all[index];
   }
 
@@ -56,7 +56,7 @@ export default class Relation {
     if (index === false) {
       let record = new Record({
         fields,
-        relation: this
+        collection: this
       });
       this[recordsKey].push(record);
       this[indexKey].push(fieldId);

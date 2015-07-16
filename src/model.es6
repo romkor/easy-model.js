@@ -1,15 +1,15 @@
 import {EventEmitter} from "events";
-import Relation from "./relation.es6";
+import Collection from "./collection.es6";
 
 const ds = Symbol("ds");
 
-export default class Model extends EventEmitter{
+export default class Model extends EventEmitter {
 
   constructor(options = {}) {
     super();
     this.primaryKey = "id";
     this.schema = options.schema || [];
-    this[ds] = new Model.DefaultRelation({
+    this[ds] = new Model.DefaultCollection({
       model: this
     });
   }
@@ -64,4 +64,4 @@ export default class Model extends EventEmitter{
 
 }
 
-Model.DefaultRelation = Relation;
+Model.DefaultCollection = Collection;

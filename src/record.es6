@@ -1,16 +1,16 @@
 import defineRecordFields from "./helpers/defineRecordFields.es6";
 
 const fieldsKey = Symbol("fields");
-const relationKey = Symbol("relation");
-const modelKey = Symbol("relation");
+const collectionKey = Symbol("collection");
+const modelKey = Symbol("model");
 
 export default class Record {
 
   constructor(options = {}) {
     options.fields = options.fields || {};
     this[fieldsKey] = {};
-    this[relationKey] = options.relation;
-    this[modelKey] = options.relation.model;
+    this[collectionKey] = options.collection;
+    this[modelKey] = options.collection.model;
     this[modelKey].schema.forEach(({name, type}) => {
       defineRecordFields({name, type, holder: fieldsKey, context: this});
     });
@@ -18,7 +18,6 @@ export default class Record {
       this[key] = options.fields[key];
     }
     Object.preventExtensions(this);
-    Object.freeze(this);
   }
 
   toJSON() {

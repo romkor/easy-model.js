@@ -1,12 +1,9 @@
-const expect = require('expect.js');
-const Easy = require("../easy.js");
-const Record = Easy.Record;
-const Relation = Easy.Relation;
-const Model = Easy.Model;
-
-var record;
+var expect = require("expect.js");
+var Model = require("../easy.js").Model;
 
 describe('EasyRecord', function() {
+  var model, record;
+
   beforeEach(function() {
     model = new Model({
       schema: [{name: 'id', type: 'integer'}, {name: 'title', type: 'string'}]
