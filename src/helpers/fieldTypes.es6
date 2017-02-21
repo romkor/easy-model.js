@@ -1,6 +1,6 @@
 export default {
   string: {
-    default: ''
+    default: ""
   },
   integer: {
     default: 0

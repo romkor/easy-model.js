@@ -1,4 +1,5 @@
 import Record from "./record.es6";
+import Relation from "./relation.es6";
 
 const recordsKey = Symbol("recordsKey");
 const indexKey = Symbol("indexKey");
@@ -49,6 +50,22 @@ export default class Collection {
     return index !== false ? this.get(index) : false;
   }
 
+  findBy(field, value) {
+    if (field == undefined) throw "Attribute field can't be blank";
+    if (value == undefined) throw "Attribute value can't be blank";
+    // if (!String.isString(field)) throw `Attribute field: ${field} should be string`;
+
+    var size = this.size,
+      record = false;
+    for (let index = 0; index < size; index++) {
+      record = this.get(index);
+      if (record[field] === value) {
+        break;
+      }
+    }
+    return record;
+  }
+
   create(fields = {}) {
     const key = this.model.primaryKey;
     const fieldId = fields[key];
@@ -66,6 +83,10 @@ export default class Collection {
     }
   }
 
+  update(id, fields) {
+
+  }
+
   destroy(id) {
     var index = this.exist(id),
     record = Object.assign({}, this.find(index));
@@ -77,6 +98,24 @@ export default class Collection {
     } else {
       return false;
     }
+  }
+
+  where(field) {
+    return new Relation({
+      current: 0,
+      collection: this,
+      state: Relation.states.DEFINE_FIELD_NAME,
+      whereRule: {
+        id: 0,
+        type: "field",
+        rule: "",
+        name: field
+      }
+    });
+  }
+
+  sort(fn) {
+
   }
 
 }

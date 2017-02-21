@@ -5,8 +5,9 @@ var Collection = Easy.Collection;
 
 var records = [
   {id:1, title: 'Title 1'},
-  {id:2, title: 'Title 2'},
   {id:3, title: 'Title 3'},
+  {id:2, title: 'Title 2'},
+  {id:4, title: 'Title 2'},
 ];
 
 describe('EasyCollection', function() {
@@ -144,7 +145,7 @@ describe('EasyCollection', function() {
         }),
         records: records
       });
-      expect(collection.exist(2)).to.eql(1);
+      expect(collection.exist(records[1].id)).to.eql(1);
     });
     it('should return false if record with given id didn\'t exist in collection', function() {
       var collection = new Collection({
@@ -154,6 +155,22 @@ describe('EasyCollection', function() {
         records: records
       });
       expect(collection.exist(10)).to.be(false);
+    });
+  });
+
+  describe('#find(id)', function() {
+
+  });
+
+  describe('#findBy(field, value)', function() {
+    it('should return first record with given field value', function() {
+      var collection = new Collection({
+        model: new Model({
+          schema: [{name: 'id'}, {name: 'title'}]
+        }),
+        records: records
+      });
+      expect(collection.findBy('title', 'Title 2').id).to.eql(2);
     });
   });
 

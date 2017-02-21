@@ -4,6 +4,7 @@ const fieldsKey = Symbol("fields");
 const collectionKey = Symbol("collection");
 const modelKey = Symbol("model");
 
+// TODO: Add some description here
 export default class Record {
 
   constructor(options = {}) {
@@ -21,7 +22,7 @@ export default class Record {
   }
 
   toJSON() {
-    var recordObj = {};
+    let recordObj = {};
     this[modelKey].schema.forEach(field => {
       recordObj[field.name] = this[field.name];
     });

@@ -1,0 +1,89 @@
+html {
+  min-height: 100%;
+  display: flex;
+  align-items: stretch;
+  align-content: stretch;
+}
+
+body {
+  margin: 0;
+  font-family: sans-serif;
+  display: flex;
+  flex-grow: 1;
+  align-items: stretch;
+  align-content: stretch;
+}
+
+.screen {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.board {
+  display: flex;
+  flex: 1;
+  background: #ECEFF1;
+  transition: all 0.75s ease-out;
+}
+
+.board-column {
+  padding-bottom: 70px;
+  flex: 1;
+  box-sizing: border-box;
+  border-right: 1px solid #B0BEC5;
+  transition: all 0.5s ease-out;
+}
+
+.board-column:last-child {
+  border-right-width: 0;
+}
+
+.board-column-title {
+  margin: 0;
+  padding: 10px;
+  text-align: center;
+  background: #546E7A;
+  color: #fff;
+  border-bottom: 1px solid #CFD8DC;
+}
+
+.board-column-tasks {
+}
+
+.board-task,
+.board-task__active {
+  padding: 15px;
+  border-bottom: 1px solid #B0BEC5;
+  background: #CFD8DC;
+  transition: all 0.5s ease-out;
+}
+
+.board-task__active {
+  background: #B0BEC5;
+}
+
+.action {
+  font-size: 12px;
+}
+
+.task-fast-form {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  background: #F5F5F5;
+  border-top: 1px solid #ddd;
+}
+
+.task-input {
+  height: 40px;
+  border: 0;
+  flex: 1;
+  outline-width: 1.5px;
+  margin: 15px;
+  padding: 0 10px;
+  border: 1px solid #ddd;
+  line-height: 40px;
+}

@@ -1,4 +1,5 @@
 import {EventEmitter} from "events";
+import defineMethods from "./helpers/defineMethods.es6";
 import Collection from "./collection.es6";
 
 const ds = Symbol("ds");
@@ -12,11 +13,23 @@ export default class Model extends EventEmitter {
     this[ds] = new Model.DefaultCollection({
       model: this
     });
+
+    defineMethods(Model.prototype, this[ds], [
+      "toJSON",
+      "exist",
+      "find",
+      "findBy",
+      "where",
+      "create",
+      "update",
+      "destroy",
+      "sort"
+    ]);
   }
 
-  toJSON() {
-    return this[ds].toJSON();
-  }
+  // toJSON() {
+  //   return this[ds].toJSON();
+  // }
 
   get all() {
     return this[ds].all;
@@ -46,21 +59,29 @@ export default class Model extends EventEmitter {
     return this[ds].exist(id);
   }
 
-  find(id) {
-    return this[ds].find(id);
-  }
+  // find(id) {
+  //   return this[ds].find(id);
+  // }
 
-  create(attrs) {
-    return this[ds].create(attrs);
-  }
+  // findBy(field, value) {
+  //   return this[ds].findBy(field, value);
+  // }
 
-  update({id, attrs}) {
-    return this[ds].update({id, attrs});
-  }
+  // where(field) {
+  //   return this[ds].where(field);
+  // }
 
-  destroy(id) {
-    return this[ds].destroy(id);
-  }
+  // create(attrs) {
+  //   return this[ds].create(attrs);
+  // }
+  //
+  // update({id, attrs}) {
+  //   return this[ds].update({id, attrs});
+  // }
+  //
+  // destroy(id) {
+  //   return this[ds].destroy(id);
+  // }
 
 }
 
